@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dqpe1g7iuxxb6"]
+[gd_scene load_steps=17 format=3 uid="uid://dqpe1g7iuxxb6"]
 
 [ext_resource type="Script" path="res://scripts/node_script.gd" id="1_f3slk"]
 [ext_resource type="FontFile" uid="uid://de7sw3fmkkjp6" path="res://fonts/font.woff2" id="2_smvxa"]
@@ -11,8 +11,9 @@
 [ext_resource type="AudioStream" uid="uid://c48oopkmwwqkp" path="res://sfx/submit.wav" id="10_q1aei"]
 [ext_resource type="AudioStream" uid="uid://dtwl52v6ujftd" path="res://sfx/fail.wav" id="11_0syhh"]
 [ext_resource type="AudioStream" uid="uid://ct1xh1ibtm4t7" path="res://sfx/correct.wav" id="12_ae3pi"]
-[ext_resource type="AudioStream" uid="uid://chbjcdvxxch3n" path="res://sfx/type.wav" id="12_t4oya"]
+[ext_resource type="AudioStream" uid="uid://bsi1lmtf7jpod" path="res://sfx/type.wav" id="12_t4oya"]
 [ext_resource type="Script" path="res://scripts/network_manager.gd" id="13_14qf5"]
+[ext_resource type="AudioStream" uid="uid://cqfsr8mxhpj53" path="res://sfx/tick.wav" id="13_bewgs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_47wc6"]
 font = ExtResource("2_smvxa")
@@ -100,6 +101,10 @@ stream = ExtResource("12_ae3pi")
 
 [node name="type" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_t4oya")
+volume_db = -8.432
+
+[node name="tick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_bewgs")
 volume_db = -8.432
 
 [node name="NetworkManager" type="Node" parent="."]

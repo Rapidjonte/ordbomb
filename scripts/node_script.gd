@@ -6,7 +6,6 @@ extends Node2D
 @onready var so = $so
 @onready var saob = $saob
 @onready var so_list = $new_char
-@onready var tick = $Tick
 
 var rätt = 0;
 var fel = 0;
@@ -24,17 +23,17 @@ var poäng = {
 }
 
 func _input(event):
-	if event is InputEventKey and event.pressed and not event.echo:
+	if event is InputEventKey and event.pressed: #and not event.echo:
 		if event.unicode > 0:
-			$type.pitch_scale = float(len(lineedit.text))/12+1
+			$type.pitch_scale = float(len(lineedit.text))/24+1
 			$type.play()
 
 func _ready():
 	$ignite.play()
 	char_req()
 
-func _process(delta):
-	pass
+#func _process(delta):
+	#pass
 
 var char_response: String;
 
