@@ -1977,3 +1977,9 @@ Ystad
 Örnsköldsvik
 Östersund
 Östhammar
+Nordlig hundhaj
+Havsängel
+Sexbågig kamtandhaj
+Storfläckig rödhaj
+Småfläckig rödhaj
+Årfenhaj

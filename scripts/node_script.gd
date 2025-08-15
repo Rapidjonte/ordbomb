@@ -19,7 +19,7 @@ var poäng = {
 	"H": 3, "I": 1, "J": 8, "K": 3, "L": 1, "M": 3, "N": 1,
 	"O": 2, "P": 3, "Q": 10, "R": 1, "S": 1, "T": 1, "U": 3,
 	"V": 4, "W": 7, "X": 10, "Y": 8, "Z": 10, "Å": 4, "Ä": 4, "Ö": 4,
-	"É": 6, "Ô": 12, "-": 10, " ": 10
+	"É": 6, "Ô": 12, "-": 10, " ": 7, "3": 3, "4": 4, "5": 5
 }
 
 func say(string, x = 160, y = 480):
@@ -29,7 +29,7 @@ func say(string, x = 160, y = 480):
 	add_child(popup)
 
 func _input(event):
-	if event is InputEventKey and event.pressed: #and not event.echo:
+	if event is InputEventKey and event.pressed and lineedit.has_focus(): #and not event.echo:
 		if event.unicode > 0:
 			$type.pitch_scale = float(len(lineedit.text))/24+1
 			$type.play()
@@ -69,7 +69,15 @@ func _on_new_char_request_completed(result, response_code, headers, body):
 	chars = chars.split(">", true, 0)[1]
 	finalize_chars(chars);
 	
+func filter_string(input: String, allowed_chars: Dictionary) -> String:
+	var result = ""
+	for char in input.to_upper(): 
+		if allowed_chars.has(char):
+			result += char
+	return result.to_lower()
+
 func finalize_chars(chars: String):
+	chars = filter_string(chars, poäng)
 	if true: # if (SELF_TURN):
 		$selfTurn.play()
 	label.text = get_random_chunk(chars, 3).strip_edges().replace(" ", "")
@@ -102,6 +110,7 @@ func url_encode(s: String) -> String:
 func _on_line_edit_text_submitted(new_text):
 	#$submit.play()
 	input = lineedit.text.strip_edges().to_lower().replace("_", "")
+	input = filter_string(input, poäng)
 	if pending == 0 and input.contains(label.text) and !(input in used):
 		print("input: " + input)
 		if extension_enabled and !(extension.find(input) == -1):
@@ -129,10 +138,10 @@ func _on_line_edit_text_submitted(new_text):
 		saob.request("https://svenska.se/tri/f_saob.php?sok=" + encoded_input)
 		print("request sent to: " + "https://svenska.se/tri/f_saob.php?sok=" + encoded_input)
 	else: 
-		if (lineedit.text.strip_edges().to_lower() in used): 
+		if (input in used): 
 			pass
 			$failWord_alreadyUsed.play()
-		if not lineedit.text.strip_edges().to_lower().contains(label.text):
+		if not input.contains(label.text):
 			pass
 			$fail.play()
 	lineedit.text = "";
@@ -168,7 +177,7 @@ func review():
 		fel += 1
 		print("fel: " + str(fel))
 		$fail.play()
-	else: 
+	elif ((svar[0].contains(input) and not svar[0].contains("gav inga svar.")) or (svar[1].contains(input) and not svar[1].contains("gav inga svar.")) or (svar[2].contains(input) and not svar[2].contains("gav inga svar."))): 
 		rätt += 1
 		print("rätt: " + str(rätt))
 		$correct.play()
@@ -180,6 +189,10 @@ func review():
 		used.append(input)
 		label.text = "..."
 		char_req()
+	else:
+		fel += 1
+		print("fel: " + str(fel))
+		$fail.play()
 
 func calculate_word_score(word: String) -> int:
 	var score = 0
