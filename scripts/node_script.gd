@@ -22,6 +22,12 @@ var poäng = {
 	"É": 6, "Ô": 12, "-": 10, " ": 10
 }
 
+func say(string, x = 160, y = 480):
+	var popup = preload("res://scenes/popup.tscn").instantiate()
+	popup.text = string
+	popup.position = Vector2(x, y)
+	add_child(popup)
+
 func _input(event):
 	if event is InputEventKey and event.pressed: #and not event.echo:
 		if event.unicode > 0:
@@ -106,6 +112,7 @@ func _on_line_edit_text_submitted(new_text):
 			var point_gain = calculate_word_score(input)
 			print(str(points) + "\t+" + str(point_gain))
 			points += point_gain
+			say("+" + str(point_gain))
 			$score.text = "Poäng: " + str(points)
 			used.append(input)
 			label.text = "..."
@@ -168,6 +175,7 @@ func review():
 		var point_gain = calculate_word_score(input)
 		print(str(points) + "\t+" + str(point_gain))
 		points += point_gain
+		say("+" + str(point_gain))
 		$score.text = "Poäng: " + str(points)
 		used.append(input)
 		label.text = "..."
