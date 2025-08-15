@@ -19,7 +19,7 @@ var poäng = {
 	"H": 3, "I": 1, "J": 8, "K": 3, "L": 1, "M": 3, "N": 1,
 	"O": 2, "P": 3, "Q": 10, "R": 1, "S": 1, "T": 1, "U": 3,
 	"V": 4, "W": 7, "X": 10, "Y": 8, "Z": 10, "Å": 4, "Ä": 4, "Ö": 4,
-	"É": 6, "Ô": 10, "-": 10
+	"É": 6, "Ô": 12, "-": 10, " ": 10
 }
 
 func _input(event):
@@ -39,7 +39,7 @@ var char_response: String;
 
 func char_req():
 	if extension_enabled:
-		if randf() < 0.2:
+		if randf() < 0.3:
 			randomize()
 			var randchar = extension[randi() % extension.size()]
 			finalize_chars(randchar.to_lower())
@@ -66,7 +66,7 @@ func _on_new_char_request_completed(result, response_code, headers, body):
 func finalize_chars(chars: String):
 	if true: # if (SELF_TURN):
 		$selfTurn.play()
-	label.text = get_random_chunk(chars, 3).strip_edges()
+	label.text = get_random_chunk(chars, 3).strip_edges().replace(" ", "")
 	
 func check_for_underscores(chars: String) -> bool:
 	chars = chars.substr(chars.find("<span class=\"orto\">"), 55)
@@ -95,8 +95,8 @@ func url_encode(s: String) -> String:
 
 func _on_line_edit_text_submitted(new_text):
 	#$submit.play()
-	if pending == 0 and lineedit.text.strip_edges().to_lower().contains(label.text) and !(lineedit.text.strip_edges().to_lower() in used):
-		input = lineedit.text.strip_edges().to_lower()
+	input = lineedit.text.strip_edges().to_lower().replace("_", "")
+	if pending == 0 and input.contains(label.text) and !(input in used):
 		print("input: " + input)
 		if extension_enabled and !(extension.find(input) == -1):
 			print("word in extension!")
