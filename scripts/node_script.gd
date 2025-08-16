@@ -19,10 +19,10 @@ var poäng = {
 	"H": 3, "I": 1, "J": 8, "K": 3, "L": 1, "M": 3, "N": 1,
 	"O": 2, "P": 3, "Q": 10, "R": 1, "S": 1, "T": 1, "U": 3,
 	"V": 4, "W": 7, "X": 10, "Y": 8, "Z": 10, "Å": 4, "Ä": 4, "Ö": 4,
-	"É": 6, "Ô": 12, "-": 10, " ": 7, "3": 3, "4": 4, "5": 5
+	"É": 6, "Ô": 12, "-": 10, " ": 7, "3": 4, "4": 4, "5": 4, "À": 6
 }
 
-func say(string, x = 160, y = 480):
+func say(string, x = 16, y = 536):
 	var popup = preload("res://scenes/popup.tscn").instantiate()
 	popup.text = string
 	popup.position = Vector2(x, y)
