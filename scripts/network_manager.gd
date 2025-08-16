@@ -16,12 +16,10 @@ func start_server(port = 4242, max_clients = 8):
 		
 		multiplayer.multiplayer_peer = peer
 		print("server started!")
-		get_parent().say("Lobby started!")
-		players[multiplayer.get_unique_id()] = "Host"
-		add_player(multiplayer.get_unique_id(), "Host")
-		multiplayer.peer_connected.connect(_on_peer_connected)
-		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-	
+		get_parent().say("Lobby created!")
+		
+		add_player(multiplayer.get_unique_id(), "Player")
+
 func start_client(server_ip = "127.0.0.1", port = 4242):
 	if peer == null:
 		peer = ENetMultiplayerPeer.new()
@@ -40,15 +38,18 @@ func start_client(server_ip = "127.0.0.1", port = 4242):
 
 func _on_peer_connected(id):
 	print("peer connected:", id)
-	players[id] = "Guest"
+	players[id] = "Player"
 	player_list_updated.emit()
 	
-	rpc("add_new_player", id, "Guest")
+	rpc("add_new_player", id, "Player")
+	
+	for pid in players.keys():
+		if pid != id:
+			rpc_id(id, "add_new_player", pid, players[pid])
 
 func _on_peer_disconnected(id):
-	print("peer disconnected:", id)
-	players.erase(id)
-	player_list_updated.emit()
+	print("disconnected:", id)
+	rpc("remove_player", id)
 
 @onready var player_scene = preload("res://scenes/player.tscn")
 var players_nodes = {}
@@ -65,6 +66,16 @@ func add_player(player_id: int, name: String = "Player"):
 	$playercontainer.add_child(player)
 	player.set_player_name(name)
 	players_nodes[player_id] = player
+	update_player_positions()
+
+@rpc("any_peer", "reliable")
+func remove_player(id: int):
+	print("peer disconnected:", id)
+	players.erase(id)
+	if players_nodes.has(id):
+		players_nodes[id].queue_free()
+		players_nodes.erase(id)
+	player_list_updated.emit()
 	update_player_positions()
 
 func update_player_positions():
