@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="ordbomb 4"
+config/name="ordbomb 5"
 run/main_scene="res://scenes/node_2d.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://images/godot/icon.svg"
@@ -21,7 +21,7 @@ general/default_playback_type.web=0
 
 [autoload]
 
-NetworkManager="*res://scripts/network_manager.gd"
+Settings="*res://scripts/settings.gd"
 
 [display]
 

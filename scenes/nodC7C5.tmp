@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dqpe1g7iuxxb6"]
+[gd_scene load_steps=16 format=3 uid="uid://dqpe1g7iuxxb6"]
 
 [ext_resource type="Script" path="res://scripts/node_script.gd" id="1_f3slk"]
 [ext_resource type="FontFile" uid="uid://de7sw3fmkkjp6" path="res://fonts/font.woff2" id="2_smvxa"]
@@ -8,13 +8,11 @@
 [ext_resource type="AudioStream" uid="uid://b15kndhak0ns" path="res://sfx/selfTurn.wav" id="6_dbc40"]
 [ext_resource type="AudioStream" uid="uid://cye5kv4r66p75" path="res://sfx/failWord_alreadyUsed.wav" id="8_jliks"]
 [ext_resource type="AudioStream" uid="uid://dqruk4nvlguje" path="res://sfx/ignite.wav" id="10_j00fr"]
+[ext_resource type="AudioStream" uid="uid://c48oopkmwwqkp" path="res://sfx/submit.wav" id="10_q1aei"]
 [ext_resource type="AudioStream" uid="uid://dtwl52v6ujftd" path="res://sfx/fail.wav" id="11_0syhh"]
 [ext_resource type="AudioStream" uid="uid://ct1xh1ibtm4t7" path="res://sfx/correct.wav" id="12_ae3pi"]
 [ext_resource type="AudioStream" uid="uid://bsi1lmtf7jpod" path="res://sfx/type.wav" id="12_t4oya"]
 [ext_resource type="AudioStream" uid="uid://cqfsr8mxhpj53" path="res://sfx/tick.wav" id="13_bewgs"]
-[ext_resource type="Script" path="res://scripts/char_requester.gd" id="14_ovr1s"]
-[ext_resource type="Script" path="res://scripts/settings.gd" id="14_pnikj"]
-[ext_resource type="Script" path="res://scripts/word_checker.gd" id="15_o372y"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_47wc6"]
 font = ExtResource("2_smvxa")
@@ -46,6 +44,20 @@ label_settings = SubResource("LabelSettings_47wc6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="saol" type="HTTPRequest" parent="."]
+use_threads = true
+max_redirects = 1
+
+[node name="so" type="HTTPRequest" parent="."]
+use_threads = true
+max_redirects = 1
+
+[node name="saob" type="HTTPRequest" parent="."]
+use_threads = true
+max_redirects = 1
+
+[node name="new_char" type="HTTPRequest" parent="."]
+
 [node name="LineEdit" type="LineEdit" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
@@ -73,8 +85,20 @@ label_settings = SubResource("LabelSettings_8yxqq")
 stream = ExtResource("6_dbc40")
 volume_db = -7.466
 
+[node name="failWord_alreadyUsed" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_jliks")
+
 [node name="ignite" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_j00fr")
+
+[node name="submit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_q1aei")
+
+[node name="fail" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_0syhh")
+
+[node name="correct" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_ae3pi")
 
 [node name="type" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_t4oya")
@@ -84,41 +108,8 @@ volume_db = -8.432
 stream = ExtResource("13_bewgs")
 volume_db = -8.432
 
-[node name="Settings" type="Node" parent="."]
-script = ExtResource("14_pnikj")
-
-[node name="CharRequester" type="Node" parent="."]
-script = ExtResource("14_ovr1s")
-
-[node name="new_char" type="HTTPRequest" parent="CharRequester"]
-
-[node name="WordChecker" type="Node" parent="."]
-script = ExtResource("15_o372y")
-
-[node name="saol" type="HTTPRequest" parent="WordChecker"]
-use_threads = true
-max_redirects = 1
-
-[node name="so" type="HTTPRequest" parent="WordChecker"]
-use_threads = true
-max_redirects = 1
-
-[node name="saob" type="HTTPRequest" parent="WordChecker"]
-use_threads = true
-max_redirects = 1
-
-[node name="correct" type="AudioStreamPlayer" parent="WordChecker"]
-stream = ExtResource("12_ae3pi")
-
-[node name="fail" type="AudioStreamPlayer" parent="WordChecker"]
-stream = ExtResource("11_0syhh")
-
-[node name="failWord_alreadyUsed" type="AudioStreamPlayer" parent="WordChecker"]
-stream = ExtResource("8_jliks")
-
+[connection signal="request_completed" from="saol" to="." method="_on_http_request_request_completed"]
+[connection signal="request_completed" from="so" to="." method="_on_so_request_completed"]
+[connection signal="request_completed" from="saob" to="." method="_on_saob_request_completed"]
+[connection signal="request_completed" from="new_char" to="." method="_on_new_char_request_completed"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
-[connection signal="text_submitted" from="LineEdit" to="WordChecker" method="_on_line_edit_text_submitted"]
-[connection signal="request_completed" from="CharRequester/new_char" to="CharRequester" method="_on_new_char_request_completed"]
-[connection signal="request_completed" from="WordChecker/saol" to="WordChecker" method="_on_http_request_request_completed"]
-[connection signal="request_completed" from="WordChecker/so" to="WordChecker" method="_on_so_request_completed"]
-[connection signal="request_completed" from="WordChecker/saob" to="WordChecker" method="_on_saob_request_completed"]

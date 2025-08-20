@@ -12,9 +12,7 @@ func _ready():
 
 func _process(delta: float):
 	position.y -= move_speed * delta
-	
 	modulate.a -= fade_speed * delta
-
 	_time_alive += delta
 	if _time_alive >= lifetime:
 		queue_free()
