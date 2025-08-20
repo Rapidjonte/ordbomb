@@ -37,6 +37,13 @@ z_index = -1
 rotation = 1.5708
 texture = ExtResource("3_kpfkf")
 
+[node name="ignite" type="AudioStreamPlayer" parent="Bomb"]
+stream = ExtResource("10_j00fr")
+
+[node name="tick" type="AudioStreamPlayer" parent="Bomb"]
+stream = ExtResource("13_bewgs")
+volume_db = -8.432
+
 [node name="Label" type="Label" parent="."]
 offset_top = 36.0
 offset_right = 1152.0
@@ -61,6 +68,10 @@ grow_vertical = 2
 size_flags_horizontal = 4
 alignment = 1
 
+[node name="type" type="AudioStreamPlayer" parent="LineEdit"]
+stream = ExtResource("12_t4oya")
+volume_db = -8.432
+
 [node name="score" type="Label" parent="."]
 offset_left = 8.0
 offset_top = 8.0
@@ -69,21 +80,6 @@ offset_bottom = 82.0
 text = "Poäng: 0"
 label_settings = SubResource("LabelSettings_8yxqq")
 
-[node name="selfTurn" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_dbc40")
-volume_db = -7.466
-
-[node name="ignite" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("10_j00fr")
-
-[node name="type" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("12_t4oya")
-volume_db = -8.432
-
-[node name="tick" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("13_bewgs")
-volume_db = -8.432
-
 [node name="Settings" type="Node" parent="."]
 script = ExtResource("14_pnikj")
 
@@ -91,6 +87,10 @@ script = ExtResource("14_pnikj")
 script = ExtResource("14_ovr1s")
 
 [node name="new_char" type="HTTPRequest" parent="CharRequester"]
+
+[node name="selfTurn" type="AudioStreamPlayer" parent="CharRequester"]
+stream = ExtResource("6_dbc40")
+volume_db = -7.466
 
 [node name="WordChecker" type="Node" parent="."]
 script = ExtResource("15_o372y")
@@ -116,7 +116,6 @@ stream = ExtResource("11_0syhh")
 [node name="failWord_alreadyUsed" type="AudioStreamPlayer" parent="WordChecker"]
 stream = ExtResource("8_jliks")
 
-[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="text_submitted" from="LineEdit" to="WordChecker" method="_on_line_edit_text_submitted"]
 [connection signal="request_completed" from="CharRequester/new_char" to="CharRequester" method="_on_new_char_request_completed"]
 [connection signal="request_completed" from="WordChecker/saol" to="WordChecker" method="_on_http_request_request_completed"]

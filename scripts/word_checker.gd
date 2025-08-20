@@ -14,10 +14,9 @@ func url_encode(s: String) -> String:
 	return encoded
 
 func _on_line_edit_text_submitted(new_text):
-	#print($".".extension)
 	input = $"../LineEdit".text.strip_edges().to_lower().replace("_", "")
 	input = $"../CharRequester".filter_string(input, $"../Settings".poäng)
-	if pending == 0 and input.contains($"../Label".text) and !(input in $"../".used):
+	if pending == 0 and input.contains($"../Label".text) and !(input in $"..".used):
 		print("input: " + input)
 		if $"../Settings".extension_enabled and !($"../Settings".extension.find(input) == -1):
 			print("word in extension!")
@@ -34,7 +33,7 @@ func _on_line_edit_text_submitted(new_text):
 		saob.request("https://svenska.se/tri/f_saob.php?sok=" + encoded_input)
 		print("request sent to: " + "https://svenska.se/tri/f_saob.php?sok=" + encoded_input)
 	else: 
-		if (input in $"../".used): 
+		if (input in $"..".used): 
 			pass
 			$failWord_alreadyUsed.play()
 		if not input.contains($"../Label".text):
@@ -67,14 +66,14 @@ func finished():
 
 func review():
 	if svar[0].contains("gav inga svar.") and svar[1].contains("gav inga svar.") and svar[2].contains("gav inga svar."):
-		$"../".fel += 1
-		print("fel: " + str($"../".fel))
+		$"..".fel += 1
+		print("fel: " + str($"..".fel))
 		$fail.play()
 	elif ((svar[0].contains(input) and not svar[0].contains("gav inga svar.")) or (svar[1].contains(input) and not svar[1].contains("gav inga svar.")) or (svar[2].contains(input) and not svar[2].contains("gav inga svar."))): 
 		accept()
 	else:
-		$"../".fel += 1
-		print("fel: " + str($"../".fel))
+		$"..".fel += 1
+		print("fel: " + str($"..".fel))
 		$fail.play()
 
 func calculate_word_score(word: String) -> int:
@@ -85,14 +84,14 @@ func calculate_word_score(word: String) -> int:
 	return score
 
 func accept() -> void:
-	$"../".rätt += 1
-	print("rätt: " + str($"../".rätt))
+	$"..".rätt += 1
+	print("rätt: " + str($"..".rätt))
 	$correct.play()
 	var point_gain = calculate_word_score(input)
-	print(str($"../".points) + "\t+" + str(point_gain))
-	$"../".points += point_gain
+	print(str($"..".points) + "\t+" + str(point_gain))
+	$"..".points += point_gain
 	sayer.say("+" + str(point_gain))
-	$"../score".text = "Poäng: " + str($"../".points)
-	$"../".used.append(input)
+	$"../score".text = "Poäng: " + str($"..".points)
+	$"..".used.append(input)
 	$"../Label".text = "..."
 	$"../CharRequester".newRequest()
