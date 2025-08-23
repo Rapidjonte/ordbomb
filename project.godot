@@ -19,10 +19,6 @@ config/icon="res://images/godot/icon.svg"
 
 general/default_playback_type.web=0
 
-[autoload]
-
-Settings="*res://scripts/settings.gd"
-
 [display]
 
 window/stretch/mode="viewport"
