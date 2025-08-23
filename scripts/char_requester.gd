@@ -5,11 +5,11 @@ var char_response: String;
 @onready var so_list = $new_char
 
 func newRequest():
-	if Settings.extension_enabled:
+	if $"../Settings".extension_enabled:
 		if randf() < 0.3:
 			randomize()
-			var randchar = Settings.extension[randi() % Settings.extension.size()]
-			finalize_chars(randchar.to_lower())
+			var randchar = $"../Settings".extension[randi() % $"../Settings".extension.size()]
+			finalize_chars(randchar)
 			print("char request from extension! (from the word " + randchar + ")")
 		else:
 			var url = "https://svenska.se/so/?id=%s&pz=5" % randi_range(100001, 198119)
@@ -31,16 +31,24 @@ func _on_new_char_request_completed(result, response_code, headers, body):
 	finalize_chars(chars);
 
 func finalize_chars(chars: String):
-	chars = filter_string(chars, $"/root/Settings".poäng)
+	chars = filter_string(chars, $"../Settings".poäng)
 	
-	$"../Label".text = get_random_chunk(chars, 3).strip_edges().replace(" ", "") ###################
+	$"../Label".text = get_random_chunk(chars, 3).replace(" ", "")
 	
 func filter_string(input: String, allowed_chars: Dictionary) -> String:
 	var result = ""
 	for char in input.to_upper(): 
 		if allowed_chars.has(char):
 			result += char
-	return result.to_lower()
+	if result.length() > 0 and result[result.length()-1] == "-":
+		result[result.length()-1] = ""
+	if result.length() > 0 and result[0] == "-":
+		result[0] = ""
+	result = result.to_lower().strip_edges()
+	if result.length() < 1:
+		newRequest()
+		return "..."
+	return result
 
 func check_for_underscores(chars: String) -> bool:
 	chars = chars.substr(chars.find("<span class=\"orto\">"), 55)
@@ -54,6 +62,6 @@ func check_for_underscores(chars: String) -> bool:
 	
 func get_random_chunk(word: String, length: int) -> String:
 	if word.length() < length:
-		return word[0] 
+		return word
 	var start_index = randi() % (word.length() - length + 1)
 	return word.substr(start_index, length)

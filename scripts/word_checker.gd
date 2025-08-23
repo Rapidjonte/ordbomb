@@ -17,7 +17,7 @@ func newCheck(word):
 	
 	$".."/LineEdit.text = "" ###################
 	
-	input = word.strip_edges().to_lower().replace("_", "")
+	input = word.replace("_", "")
 	input = $"../CharRequester".filter_string(input, $"../Settings".poäng)
 	if pending == 0 and input.contains($"../Label".text) and !(input in $"..".used):
 		print("input: " + input)
