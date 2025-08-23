@@ -13,3 +13,6 @@ func _input(event):
 
 func _ready():
 	$CharRequester.newRequest()
+
+func _on_line_edit_text_submitted(new_text):
+	$WordChecker.newCheck(new_text)

@@ -32,7 +32,8 @@ func _on_new_char_request_completed(result, response_code, headers, body):
 
 func finalize_chars(chars: String):
 	chars = filter_string(chars, $"/root/Settings".poäng)
-	$"../Label".text = get_random_chunk(chars, 3).strip_edges().replace(" ", "")
+	
+	$"../Label".text = get_random_chunk(chars, 3).strip_edges().replace(" ", "") ###################
 	
 func filter_string(input: String, allowed_chars: Dictionary) -> String:
 	var result = ""

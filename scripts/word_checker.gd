@@ -13,15 +13,17 @@ func url_encode(s: String) -> String:
 		encoded += "%" + "%02X" % b
 	return encoded
 
-func _on_line_edit_text_submitted(new_text):
-	input = $"../LineEdit".text.strip_edges().to_lower().replace("_", "")
+func newCheck(word):
+	
+	$".."/LineEdit.text = "" ###################
+	
+	input = word.strip_edges().to_lower().replace("_", "")
 	input = $"../CharRequester".filter_string(input, $"../Settings".poäng)
 	if pending == 0 and input.contains($"../Label".text) and !(input in $"..".used):
 		print("input: " + input)
 		if $"../Settings".extension_enabled and !($"../Settings".extension.find(input) == -1):
 			print("word in extension!")
 			accept()
-			$"../LineEdit".text = "";
 			return
 		svar = ["gav inga svar.", "gav inga svar.", "gav inga svar."];
 		pending = 3
@@ -39,7 +41,6 @@ func _on_line_edit_text_submitted(new_text):
 		if not input.contains($"../Label".text):
 			pass
 			$fail.play()
-	$"../LineEdit".text = "";
 
 var svar: Array[String] = ["gav inga svar.", "gav inga svar.", "gav inga svar."];
 var pending = 0
