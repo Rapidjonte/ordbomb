@@ -6,6 +6,9 @@ extends Node
 
 var input
 
+var svar: Array[String] = ["gav inga svar.", "gav inga svar.", "gav inga svar."];
+var pending = 0
+
 func url_encode(s: String) -> String:
 	var encoded = ""
 	var bytes = s.to_utf8_buffer() 
@@ -19,8 +22,8 @@ func newCheck(word):
 		
 		input = word.replace("_", "")
 		input = $"../CharRequester".filter_string(input, $"../Settings".poäng)
-		if pending == 0 and input.contains($"../Label".text) and !(input in $"..".used):
-			print("input: " + input)
+		if input.contains($"../Label".text) and !(input in $"..".used):
+			print("word checking " + input)
 			if $"../Settings".extension_enabled and !($"../Settings".extension.find(input) == -1):
 				print("word in extension!")
 				accept()
@@ -36,14 +39,9 @@ func newCheck(word):
 			print("request sent to: " + "https://svenska.se/tri/f_saob.php?sok=" + encoded_input)
 		else: 
 			if (input in $"..".used): 
-				pass
 				$failWord_alreadyUsed.play()
-			if not input.contains($"../Label".text):
-				pass
+			else:
 				$fail.play()
-
-var svar: Array[String] = ["gav inga svar.", "gav inga svar.", "gav inga svar."];
-var pending = 0
 
 func _on_http_request_request_completed(result, response_code, headers, body): # saol
 	svar[0] = body.get_string_from_utf8()
