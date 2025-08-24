@@ -20,6 +20,7 @@ func url_encode(s: String) -> String:
 func newCheck(word):
 	if pending == 0:
 		$".."/LineEdit.text = ""
+		print("i got your word")
 		
 		input = word.replace("_", "")
 		input = $"../CharRequester".filter_string(input, $"../Settings".poäng)

@@ -34,7 +34,7 @@ func _on_new_char_request_completed(result, response_code, headers, body):
 func finalize_chars(chars: String):
 	chars = chars.replace(" ", "").replace("-", "")
 	chars = filter_string(chars, $"../Settings".poäng)
-	
+
 	actualword = chars
 	
 	$"../Bomb/Label".text = get_random_chunk(chars, 3)
