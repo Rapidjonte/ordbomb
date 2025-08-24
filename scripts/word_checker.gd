@@ -4,7 +4,8 @@ extends Node
 @onready var so = $so
 @onready var saob = $saob
 
-var input
+var input = ""
+var used: Array[String] = [];
 
 var svar: Array[String] = ["gav inga svar.", "gav inga svar.", "gav inga svar."];
 var pending = 0
@@ -23,10 +24,10 @@ func newCheck(word):
 		input = word.replace("_", "")
 		input = $"../CharRequester".filter_string(input, $"../Settings".poäng)
 		input = $"../CharRequester".trim_minus(input)
-		if input.contains($"../Bomb/Label".text) and !(input in $"..".used):
+		if input.contains($"../Bomb/Label".text) and !(input in used):
 			print("word checking " + input)
-			if $"../Settings".extension_enabled and !($"../Settings".extension.find(input) == -1):
-				print("word in extension!")
+			if $"../Settings".extension_enabled and !($"../Settings".extension.find(input) == -1) or word == $"../CharRequester".actualword:
+				print("instant accept!")
 				accept()
 				return
 			svar = ["gav inga svar.", "gav inga svar.", "gav inga svar."];
@@ -39,7 +40,7 @@ func newCheck(word):
 			saob.request("https://svenska.se/tri/f_saob.php?sok=" + encoded_input)
 			print("request sent to: " + "https://svenska.se/tri/f_saob.php?sok=" + encoded_input)
 		else: 
-			if (input in $"..".used): 
+			if (input in used): 
 				$failWord_alreadyUsed.play()
 			else:
 				$fail.play()
@@ -108,6 +109,6 @@ func accept() -> void:
 	$"..".points += point_gain
 	sayer.say("+" + str(point_gain))
 	$"../score".text = "Poäng: " + str($"..".points)
-	$"..".used.append(input)
+	used.append(input)
 	$"../Bomb/Label".text = "..."
 	$"../CharRequester".newRequest()

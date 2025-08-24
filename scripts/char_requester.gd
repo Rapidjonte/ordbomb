@@ -1,12 +1,13 @@
 extends Node
 
 var char_response: String;
+var actualword = ""
 
 @onready var so_list = $new_char
 
 func newRequest():
 	if $"../Settings".extension_enabled:
-		if randf() < 0.3:
+		if randf() < $"../Settings".extension_chance or $"../Settings".force_extension_chars:
 			randomize()
 			var randchar = $"../Settings".extension[randi() % $"../Settings".extension.size()]
 			finalize_chars(randchar)
@@ -32,8 +33,11 @@ func _on_new_char_request_completed(result, response_code, headers, body):
 
 func finalize_chars(chars: String):
 	chars = chars.replace(" ", "").replace("-", "")
+	chars = filter_string(chars, $"../Settings".poäng)
 	
-	$"../Bomb/Label".text = get_random_chunk(filter_string(chars, $"../Settings".poäng), 3)
+	actualword = chars
+	
+	$"../Bomb/Label".text = get_random_chunk(chars, 3)
 	
 func filter_string(input: String, allowed_chars: Dictionary) -> String:
 	print("filtering ", input, "...")

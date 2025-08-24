@@ -1,5 +1,8 @@
 extends Node
 
+var extension_chance = 0.3
+var force_extension_chars = false
+
 var extension_enabled = true
 var extension = get_extension("res://extension.txt")
 
