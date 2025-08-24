@@ -18,11 +18,12 @@ func url_encode(s: String) -> String:
 
 func newCheck(word):
 	if pending == 0:
-		$".."/LineEdit.text = "" ###################
+		$".."/LineEdit.text = ""
 		
 		input = word.replace("_", "")
 		input = $"../CharRequester".filter_string(input, $"../Settings".poäng)
-		if input.contains($"../Label".text) and !(input in $"..".used):
+		input = $"../CharRequester".trim_minus(input)
+		if input.contains($"../Bomb/Label".text) and !(input in $"..".used):
 			print("word checking " + input)
 			if $"../Settings".extension_enabled and !($"../Settings".extension.find(input) == -1):
 				print("word in extension!")
@@ -80,12 +81,16 @@ func review():
 		$fail.play()
 
 func checkSAOB(_input) -> bool:
-	var part1 = _input.substr(0, _input.find("-"))
-	var part2 = _input.substr(_input.find("-"))
-	if svar[2].contains(part1) and svar[2].contains(part2):
-		return true
+	if _input.contains("-"):
+		var part1 = _input.substr(0, _input.find("-"))
+		var part2 = _input.substr(_input.find("-"))
+		part1 = part1+" "
+		if svar[2].contains(part1) and svar[2].contains(part2):
+			return true
+		else:
+			return false
 	else:
-		return false
+		return svar[2].contains(_input)
 
 func calculate_word_score(word: String) -> int:
 	var score = 0
@@ -104,5 +109,5 @@ func accept() -> void:
 	sayer.say("+" + str(point_gain))
 	$"../score".text = "Poäng: " + str($"..".points)
 	$"..".used.append(input)
-	$"../Label".text = "..."
+	$"../Bomb/Label".text = "..."
 	$"../CharRequester".newRequest()

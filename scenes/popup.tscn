@@ -1,8 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://dngmkcmdi26pv"]
+[gd_scene load_steps=4 format=3 uid="uid://di8x4pwa7oayq"]
 
+[ext_resource type="FontFile" uid="uid://de7sw3fmkkjp6" path="res://fonts/font.woff2" id="1_3c23c"]
 [ext_resource type="Script" path="res://scripts/popup.gd" id="1_b1mtn"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_57m45"]
+font = ExtResource("1_3c23c")
+
 [node name="popup" type="Label"]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 394.0
+offset_top = 552.0
+offset_right = 760.0
+offset_bottom = 575.0
+label_settings = SubResource("LabelSettings_57m45")
+horizontal_alignment = 2
+vertical_alignment = 2
+autowrap_mode = 2
 script = ExtResource("1_b1mtn")

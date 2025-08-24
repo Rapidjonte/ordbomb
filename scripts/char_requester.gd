@@ -32,7 +32,8 @@ func _on_new_char_request_completed(result, response_code, headers, body):
 
 func finalize_chars(chars: String):
 	chars = chars.replace(" ", "").replace("-", "")
-	$"../Label".text = get_random_chunk(filter_string(chars, $"../Settings".poäng), 3)
+	
+	$"../Bomb/Label".text = get_random_chunk(filter_string(chars, $"../Settings".poäng), 3)
 	
 func filter_string(input: String, allowed_chars: Dictionary) -> String:
 	print("filtering ", input, "...")
@@ -40,17 +41,19 @@ func filter_string(input: String, allowed_chars: Dictionary) -> String:
 	for char in input.to_upper(): 
 		if allowed_chars.has(char):
 			result += char
-			
-	#	if result.length() > 0 and result[result.length()-1] == "-":
-	#		result[result.length()-1] = ""
-	#	if result.length() > 0 and result[0] == "-":
-	#		result[0] = ""
+		
 	result = result.to_lower().strip_edges()
-	#	if result.length() < 1:
-	#		newRequest()
-	#		return "..."
 
 	print("filtered: ", result)
+	return result
+
+func trim_minus(result: String) -> String:
+	print("trimming ", result, "...")
+	if result.length() > 0 and result[result.length()-1] == "-":
+		result[result.length()-1] = ""
+	if result.length() > 0 and result[0] == "-":
+		result[0] = ""
+	print("trimmed: ", result)
 	return result
 
 func check_for_underscores(chars: String) -> bool:

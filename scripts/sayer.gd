@@ -1,8 +1,7 @@
 class_name sayer
 
-static func say(string, x = 160, y = 536):
+static func say(string):
 	var popup = preload("res://scenes/popup.tscn").instantiate()
 	popup.text = string
-	popup.position = Vector2(x, y)
 	var root = Engine.get_main_loop().root
 	root.add_child(popup)
