@@ -35,7 +35,7 @@ func finalize_chars(chars: String):
 	$"../Label".text = get_random_chunk(filter_string(chars, $"../Settings".poäng), 3)
 	
 func filter_string(input: String, allowed_chars: Dictionary) -> String:
-	print("filtering ", input)
+	print("filtering ", input, "...")
 	var result = ""
 	for char in input.to_upper(): 
 		if allowed_chars.has(char):
@@ -50,6 +50,7 @@ func filter_string(input: String, allowed_chars: Dictionary) -> String:
 	#		newRequest()
 	#		return "..."
 
+	print("filtered: ", result)
 	return result
 
 func check_for_underscores(chars: String) -> bool:
