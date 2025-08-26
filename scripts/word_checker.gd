@@ -34,11 +34,11 @@ func newCheck(word):
 			svar = ["gav inga svar.", "gav inga svar.", "gav inga svar."];
 			pending = 3
 			var encoded_input = url_encode(input)
-			saol.request("https://svenska.se/tri/f_saol.php?sok=" + encoded_input)
+			saol.request($"../Settings".corsproxy + "https://svenska.se/tri/f_saol.php?sok=" + encoded_input)
 			print("request sent to: " + "https://svenska.se/tri/f_saol.php?sok=" + encoded_input)
-			so.request("https://svenska.se/tri/f_so.php?sok=" + encoded_input)
+			so.request($"../Settings".corsproxy + "https://svenska.se/tri/f_so.php?sok=" + encoded_input)
 			print("request sent to: " + "https://svenska.se/tri/f_so.php?sok=" + encoded_input)
-			saob.request("https://svenska.se/tri/f_saob.php?sok=" + encoded_input)
+			saob.request($"../Settings".corsproxy + "https://svenska.se/tri/f_saob.php?sok=" + encoded_input)
 			print("request sent to: " + "https://svenska.se/tri/f_saob.php?sok=" + encoded_input)
 		else: 
 			if (input in used): 

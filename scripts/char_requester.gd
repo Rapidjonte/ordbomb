@@ -13,11 +13,11 @@ func newRequest():
 			finalize_chars(randchar)
 			print("char request from extension! (from the word " + randchar + ")")
 		else:
-			var url = "https://svenska.se/so/?id=%s&pz=5" % randi_range(100001, 198119)
+			var url = $"../Settings".corsproxy + "https://svenska.se/so/?id=%s&pz=5" % randi_range(100001, 198119)
 			so_list.request(url)
 			print("char request sent to " + url)
 	else:
-		var url = "https://svenska.se/so/?id=%s&pz=5" % randi_range(100001, 198119)
+		var url = $"../Settings".corsproxy + "https://svenska.se/so/?id=%s&pz=5" % randi_range(100001, 198119)
 		so_list.request(url)
 		print("char request sent to " + url)
 	
