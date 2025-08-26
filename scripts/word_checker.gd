@@ -113,3 +113,4 @@ func accept() -> void:
 	used.append(input)
 	$"../Bomb/Label".text = "..."
 	$"../CharRequester".newRequest()
+	$"../Bomb".fuel()

@@ -9,14 +9,14 @@ func _input(event):
 		if event.unicode > 0:
 			$LineEdit/type.pitch_scale = float(len($LineEdit.text))/24+1
 			$LineEdit/type.play()
-			
-func _ready():
-	$CharRequester.newRequest()
 
 func _on_line_edit_text_submitted(new_text):
 	print("enter pressed")
 	$WordChecker.newCheck(new_text)
 	
+func  _ready():
+	$Bomb.light_fuse()	
+
 ## AUTOPLAYER ##
 #	var delay = 0
 #	var i = 0
@@ -42,4 +42,4 @@ func _on_line_edit_text_submitted(new_text):
 #				accepted = false
 #				$WordChecker.used.clear()
 #		if delay <= 0:
-#			delay = 0 # TYPING DELAY
+#			delay = 0.1 # TYPING DELAY

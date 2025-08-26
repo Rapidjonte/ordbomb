@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dqpe1g7iuxxb6"]
+[gd_scene load_steps=23 format=3 uid="uid://dqpe1g7iuxxb6"]
 
 [ext_resource type="Script" path="res://scripts/node_script.gd" id="1_f3slk"]
 [ext_resource type="Texture2D" uid="uid://ca4nfp2xrhrs7" path="res://images/bg.png" id="2_1g5au"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bj143g6v2fgm3" path="res://images/bomb.png" id="3_xv3jk"]
 [ext_resource type="AudioStream" uid="uid://b15kndhak0ns" path="res://sfx/selfTurn.wav" id="6_dbc40"]
 [ext_resource type="FontFile" uid="uid://c0ivdjb6vr6ag" path="res://fonts/round_font.woff2" id="7_rmfhc"]
+[ext_resource type="AudioStream" uid="uid://cu4wuw4xnfqd7" path="res://sfx/explosion.wav" id="8_gwrj7"]
 [ext_resource type="AudioStream" uid="uid://cye5kv4r66p75" path="res://sfx/failWord_alreadyUsed.wav" id="8_jliks"]
 [ext_resource type="AudioStream" uid="uid://dqruk4nvlguje" path="res://sfx/ignite.wav" id="10_j00fr"]
 [ext_resource type="AudioStream" uid="uid://dtwl52v6ujftd" path="res://sfx/fail.wav" id="11_0syhh"]
@@ -17,10 +18,7 @@
 [ext_resource type="Script" path="res://scripts/char_requester.gd" id="14_ovr1s"]
 [ext_resource type="Script" path="res://scripts/settings.gd" id="14_pnikj"]
 [ext_resource type="Script" path="res://scripts/word_checker.gd" id="15_o372y"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_47wc6"]
-font = ExtResource("7_rmfhc")
-font_size = 31
+[ext_resource type="Texture2D" uid="uid://4v0n85eyv1of" path="res://images/spark.svg" id="19_m7obn"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pljb2"]
 
@@ -29,42 +27,18 @@ font = ExtResource("2_smvxa")
 font_size = 21
 font_color = Color(0.473976, 0.473976, 0.473976, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_47wc6"]
+font = ExtResource("7_rmfhc")
+font_size = 31
+
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_f3slk")
 
 [node name="Bg" type="Sprite2D" parent="."]
 z_index = -2
-position = Vector2(576.023, 324)
+position = Vector2(576, 324)
 scale = Vector2(0.450158, 0.450313)
 texture = ExtResource("2_1g5au")
-
-[node name="Bomb" type="Sprite2D" parent="."]
-position = Vector2(576, 320)
-texture = ExtResource("3_xv3jk")
-script = ExtResource("3_deole")
-
-[node name="Arrow" type="Sprite2D" parent="Bomb"]
-z_index = -1
-rotation = 1.5708
-texture = ExtResource("3_kpfkf")
-
-[node name="ignite" type="AudioStreamPlayer" parent="Bomb"]
-stream = ExtResource("10_j00fr")
-
-[node name="tick" type="AudioStreamPlayer" parent="Bomb"]
-stream = ExtResource("13_bewgs")
-volume_db = -8.432
-
-[node name="Label" type="Label" parent="Bomb"]
-offset_left = -64.0
-offset_top = -36.0
-offset_right = 64.0
-offset_bottom = 36.0
-text = "..."
-label_settings = SubResource("LabelSettings_47wc6")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
 
 [node name="LineEdit" type="LineEdit" parent="."]
 anchors_preset = 8
@@ -133,6 +107,45 @@ stream = ExtResource("11_0syhh")
 
 [node name="failWord_alreadyUsed" type="AudioStreamPlayer" parent="WordChecker"]
 stream = ExtResource("8_jliks")
+
+[node name="Bomb" type="Node" parent="."]
+script = ExtResource("3_deole")
+
+[node name="Arrow" type="Sprite2D" parent="Bomb"]
+position = Vector2(576, 320)
+rotation = 1.5708
+texture = ExtResource("3_kpfkf")
+
+[node name="Sprite" type="Sprite2D" parent="Bomb"]
+position = Vector2(576, 320)
+texture = ExtResource("3_xv3jk")
+
+[node name="Spark" type="Sprite2D" parent="Bomb"]
+position = Vector2(624.25, 249.75)
+scale = Vector2(1.05469, 1.05469)
+texture = ExtResource("19_m7obn")
+
+[node name="Label" type="Label" parent="Bomb"]
+offset_left = 512.0
+offset_top = 284.0
+offset_right = 640.0
+offset_bottom = 356.0
+text = "..."
+label_settings = SubResource("LabelSettings_47wc6")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ignite" type="AudioStreamPlayer" parent="Bomb"]
+stream = ExtResource("10_j00fr")
+
+[node name="tick" type="AudioStreamPlayer" parent="Bomb"]
+stream = ExtResource("13_bewgs")
+volume_db = -8.432
+
+[node name="explosion" type="AudioStreamPlayer" parent="Bomb"]
+stream = ExtResource("8_gwrj7")
+volume_db = -8.432
 
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="request_completed" from="CharRequester/new_char" to="CharRequester" method="_on_new_char_request_completed"]

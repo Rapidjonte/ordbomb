@@ -1,7 +1,7 @@
 extends Node
 
 var extension_chance = 0.3
-var force_extension_chars = false
+var force_extension_chars = true
 
 var extension_enabled = true
 var extension = get_extension("res://extension.txt")
@@ -28,3 +28,11 @@ var poäng = {
 }
 
 var corsproxy = "https://corsproxy.io/?url="
+
+var room = {
+	"Minimum turn duration": 5,
+	"Maximum syllable lifespan": 2,
+	"Initial lives": 2,
+	"Maximum lives": 3,
+	"Maximum number of players": 16,
+}
