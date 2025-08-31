@@ -31,6 +31,9 @@ func newCheck(word):
 				print("instant accept!")
 				accept()
 				return
+			if not $"../Settings".http_requests_enabled:
+				$fail.play()
+				return
 			svar = ["gav inga svar.", "gav inga svar.", "gav inga svar."];
 			pending = 3
 			var encoded_input = url_encode(input)

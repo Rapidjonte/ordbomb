@@ -7,19 +7,16 @@ var actualword = ""
 
 func newRequest():
 	if $"../Settings".extension_enabled:
-		if randf() < $"../Settings".extension_chance or $"../Settings".force_extension_chars:
+		if randf() < $"../Settings".extension_chance or $"../Settings".force_extension_chars or not $"../Settings".http_requests_enabled:
 			randomize()
 			var randchar = $"../Settings".extension[randi() % $"../Settings".extension.size()]
 			finalize_chars(randchar)
 			print("char request from extension! (from the word " + randchar + ")")
-		else:
-			var url = $"../Settings".corsproxy + "https://svenska.se/so/?id=%s&pz=5" % randi_range(100001, 198119)
-			so_list.request(url)
-			print("char request sent to " + url)
-	else:
-		var url = $"../Settings".corsproxy + "https://svenska.se/so/?id=%s&pz=5" % randi_range(100001, 198119)
-		so_list.request(url)
-		print("char request sent to " + url)
+			return
+	var target = "https://svenska.se/so/?id=%s&pz=5" % randi_range(100001, 198119)
+	var url = $"../Settings".corsproxy + target
+	so_list.request(url)
+	print("char request sent to " + url)
 	
 func _on_new_char_request_completed(result, response_code, headers, body):
 	char_response = body.get_string_from_utf8()
@@ -34,9 +31,12 @@ func _on_new_char_request_completed(result, response_code, headers, body):
 func finalize_chars(chars: String):
 	chars = chars.replace(" ", "").replace("-", "")
 	chars = filter_string(chars, $"../Settings".poäng)
-
-	actualword = chars
 	
+	if chars.length() == 0:
+		newRequest()
+		return
+		
+	actualword = chars
 	$"../Bomb/Label".text = get_random_chunk(chars, 3)
 	
 func filter_string(input: String, allowed_chars: Dictionary) -> String:

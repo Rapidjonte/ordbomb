@@ -121,7 +121,7 @@ position = Vector2(576, 320)
 texture = ExtResource("3_xv3jk")
 
 [node name="Spark" type="Sprite2D" parent="Bomb"]
-position = Vector2(624.25, 249.75)
+position = Vector2(625, 254)
 scale = Vector2(1.05469, 1.05469)
 texture = ExtResource("19_m7obn")
 
